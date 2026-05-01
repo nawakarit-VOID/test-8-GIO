@@ -19,13 +19,14 @@ func main() {
 		th := material.NewTheme()
 		var btn widget.Clickable
 
-		for e := range w.Event() {
+		for {
+			e := w.Event() // ✅ ไม่ใช่ range แล้ว
+
 			switch e := e.(type) {
 
 			case app.FrameEvent:
 				gtx := app.NewContext(&ops, e)
 
-				// ✅ ต้องใส่ gtx
 				for btn.Clicked(gtx) {
 					println("clicked!")
 				}
