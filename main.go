@@ -28,15 +28,19 @@ func main() {
 		if err := run(w); err != nil {
 			log.Fatal(err)
 		}
-		os.Exit(0)
+		os.Exit(0) // ตัวปิดหน้าต่าง
 	}()
 	app.Main() //เริ่มระบบของ Gio
 }
 
 func run(w *app.Window) error {
-	var ops op.Ops
+	var ops op.Ops //ตัวแปรชื่อ ops ที่เป็นประเภท op.Ops //กระดาษรายการคำสั่ง UI แต่ละชิ้น =  เขียนคำสั่งลงไป
+	//op.Ops - รายการคำสั่งวาด //var ops op.Ops - รายการคำสั่งนี้ชื่อว่า ops //
 	th := material.NewTheme()
-	var btn widget.Clickable
+
+	var btn widget.Clickable //จะใช้คู่กับ &btn ตอน layout เสมอ
+	//btn := new(widget.Clickable)
+
 	for {
 		e := w.Event() // รับ event จาก OS
 		switch e := e.(type) {
@@ -44,7 +48,8 @@ func run(w *app.Window) error {
 			return e.Err // ตัวปิดหน้าต่าง
 
 		case app.FrameEvent: //ใช้วาด UI
-			gtx := app.NewContext(&ops, e)
+			gtx := app.NewContext(&ops, e) //เอา
+			//app.NewContext(&ops, e) - เริ่มเขียนคำสั่ง
 
 			for btn.Clicked(gtx) {
 				println("clicked!")
@@ -54,7 +59,7 @@ func run(w *app.Window) error {
 				return material.Button(th, &btn, "Click me").Layout(gtx)
 			})
 
-			e.Frame(gtx.Ops)
+			e.Frame(gtx.Ops) //สั่งวาดจริง
 		}
 	}
 }
