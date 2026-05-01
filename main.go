@@ -24,6 +24,9 @@ func main() {
 
 			switch e := e.(type) {
 
+			case app.DestroyEvent:
+				return // ตัวปิดหน้าต่าง
+
 			case app.FrameEvent:
 				gtx := app.NewContext(&ops, e)
 
