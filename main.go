@@ -40,6 +40,7 @@ func run(w *app.Window) error {
 
 	var btn widget.Clickable //จะใช้คู่กับ &btn ตอน layout เสมอ
 	//btn := new(widget.Clickable)
+	//ตรงนี้ไม่ปุ่ม แต่เป็นตัวแปร ที่ชื่อว่า btn
 
 	for {
 		e := w.Event() // รับ event จาก OS
@@ -55,8 +56,23 @@ func run(w *app.Window) error {
 				println("clicked!")
 			}
 
+			layout.Flex{
+				Axis: layout.Vertical, // แนวตั้ง
+			}.Layout(gtx,
+				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+					return material.H6(th, "Title").Layout(gtx)
+				}),
+				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+					return material.Button(th, &btn, "Click").Layout(gtx)
+				}),
+			)
+
 			layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 				return material.Button(th, &btn, "Click me").Layout(gtx)
+				//Button สร้างอยู่ตรงนี้ แล้วใช้ theme, ฟังชั้น, ชื่อที่แสดง
+			})
+			layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+				return material.Label(th, unit.Sp(16), "Click me").Layout(gtx)
 			})
 
 			e.Frame(gtx.Ops) //สั่งวาดจริง
