@@ -65,17 +65,88 @@ func run(w *app.Window) error {
 				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
 					return material.Button(th, &btn, "Click").Layout(gtx)
 				}),
+				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+					return material.Button(th, &btn, "Click me").Layout(gtx)
+					//Button สร้างอยู่ตรงนี้ แล้วใช้ theme, ฟังชั้น, ชื่อที่แสดง
+				}),
+				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+					return material.Label(th, unit.Sp(16), "Click me").Layout(gtx)
+				}),
 			)
 
-			layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-				return material.Button(th, &btn, "Click me").Layout(gtx)
-				//Button สร้างอยู่ตรงนี้ แล้วใช้ theme, ฟังชั้น, ชื่อที่แสดง
-			})
-			layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-				return material.Label(th, unit.Sp(16), "Click me").Layout(gtx)
-			})
-
 			e.Frame(gtx.Ops) //สั่งวาดจริง
+
 		}
 	}
 }
+
+/*
+1. layout.Flex (แถว / คอลัมน์)
+
+layout.Flex{
+    Axis: layout.Vertical, // แนวตั้ง
+}.Layout(gtx,
+    layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+        return material.H6(th, "Title").Layout(gtx)
+    }),
+    layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+        return material.Button(th, &btn, "Click").Layout(gtx)
+    }),
+)
+
+	Title
+[Button]
+
+🔥 แนวนอน (row)
+layout.Flex{
+    Axis: layout.Horizontal,
+}.Layout(gtx,
+    layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+        return material.Button(th, &btn1, "A").Layout(gtx)
+    }),
+    layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+        return material.Button(th, &btn2, "B").Layout(gtx)
+    }),
+)
+[A] [B]
+
+
+2. layout.Flexed (ยืดพื้นที่)
+
+layout.Flex{Axis: layout.Horizontal}.Layout(gtx,
+    layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+        return material.Button(th, &btn1, "Left").Layout(gtx)
+    }),
+    layout.Flexed(2, func(gtx layout.Context) layout.Dimensions {
+        return material.Button(th, &btn2, "Right").Layout(gtx)
+    }),
+)👉 ขวาจะใหญ่กว่า 2 เท่า
+
+3. layout.Inset (padding)
+
+layout.Inset{
+    Top: unit.Dp(10),
+    Left: unit.Dp(10),
+}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+    return material.Button(th, &btn, "Padding").Layout(gtx)
+})
+
+4. layout.Center
+
+layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+    return material.H3(th, "Centered").Layout(gtx)
+})
+
+5. layout.Stack (ซ้อนกัน)
+
+layout.Stack{}.Layout(gtx,
+    layout.Stacked(func(gtx layout.Context) layout.Dimensions {
+        return material.Label(th, unit.Sp(20), "Background").Layout(gtx)
+    }),
+    layout.Stacked(func(gtx layout.Context) layout.Dimensions {
+        return material.Button(th, &btn, "Top").Layout(gtx)
+    }),
+)
+
+
+*/
