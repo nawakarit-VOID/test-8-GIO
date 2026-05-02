@@ -19,7 +19,8 @@ func main() {
 	go func() {
 
 		w := new(app.Window)
-		w.Option(app.Title("คลิกๆ"), app.Size(unit.Dp(500), unit.Dp(500)))
+
+		w.Option(app.Title("test8"), app.Size(unit.Dp(500), unit.Dp(500)))
 		//w := &app.Window{} //เหมือนกัน 100%  -- สร้างหน้าต่างเปล่า
 		//w.Option(app.Title("Custom Card Widgets ✨"), app.Size(unit.Dp(720), unit.Dp(440)))
 		//w := &app.Window{} //เหมือนกัน 100%
@@ -30,6 +31,7 @@ func main() {
 		}
 		os.Exit(0) // ตัวปิดหน้าต่าง
 	}()
+
 	app.Main() //เริ่มระบบของ Gio
 }
 
@@ -60,8 +62,11 @@ func run(w *app.Window) error {
 				Axis: layout.Vertical, // แนวตั้ง
 			}.Layout(gtx,
 				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-					return material.H6(th, "Title").Layout(gtx)
+					return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+						return material.H6(th, "Title").Layout(gtx)
+					})
 				}),
+
 				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
 					return material.Button(th, &btn, "Click").Layout(gtx)
 				}),
