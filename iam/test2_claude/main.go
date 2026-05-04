@@ -186,6 +186,7 @@ func run(w *app.Window) error {
 	th := material.NewTheme()
 	th.Shaper = text.NewShaper(text.WithCollection(gofont.Collection()))
 
+	//icStar, _ := widget.NewIcon(icons.ActionAssessment)
 	icStar, _ := widget.NewIcon(icons.ToggleStar)
 	icCloud, _ := widget.NewIcon(icons.FileCloudUpload)
 	icHeart, _ := widget.NewIcon(icons.ActionFavorite)

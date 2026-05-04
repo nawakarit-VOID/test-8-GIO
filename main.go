@@ -4,8 +4,10 @@
 package main
 
 import (
+	_ "embed"
 	"log"
 	"os"
+	"test8/ui"
 
 	"gioui.org/app"
 	"gioui.org/layout"
@@ -13,19 +15,23 @@ import (
 	"gioui.org/unit"
 	"gioui.org/widget"
 	"gioui.org/widget/material"
+	//"github.com/go-text/typesetting/font"
 )
+
+//go:embed assets/fonts/Itim-Regular.ttf
+var Itim []byte
 
 func main() {
 	go func() {
 
 		w := new(app.Window)
-
 		w.Option(app.Title("test8"), app.Size(unit.Dp(500), unit.Dp(500)))
 		//w := &app.Window{} //เหมือนกัน 100%  -- สร้างหน้าต่างเปล่า
 		//w.Option(app.Title("Custom Card Widgets ✨"), app.Size(unit.Dp(720), unit.Dp(440)))
 		//w := &app.Window{} //เหมือนกัน 100%
 		//app.Window = struct ของ window
 		//new(...) = สร้าง pointer ไปยัง struct นั้น
+
 		if err := run(w); err != nil {
 			log.Fatal(err)
 		}
@@ -38,7 +44,9 @@ func main() {
 func run(w *app.Window) error {
 	var ops op.Ops //ตัวแปรชื่อ ops ที่เป็นประเภท op.Ops //กระดาษรายการคำสั่ง UI แต่ละชิ้น =  เขียนคำสั่งลงไป
 	//op.Ops - รายการคำสั่งวาด //var ops op.Ops - รายการคำสั่งนี้ชื่อว่า ops //
-	th := material.NewTheme()
+
+	//th := material.NewTheme()
+	tm := ui.NewThemeManager()
 
 	var btn widget.Clickable //จะใช้คู่กับ &btn ตอน layout เสมอ
 	//btn := new(widget.Clickable)
@@ -53,6 +61,10 @@ func run(w *app.Window) error {
 		case app.FrameEvent: //ใช้วาด UI
 			gtx := app.NewContext(&ops, e) //เอา
 			//app.NewContext(&ops, e) - เริ่มเขียนคำสั่ง
+			isDark := false
+			tm.Update(isDark)
+
+			th := tm.Theme
 
 			for btn.Clicked(gtx) {
 				println("clicked!")
@@ -80,7 +92,16 @@ func run(w *app.Window) error {
 						layout.Rigid(func(gtx layout.Context) layout.Dimensions {
 							return layout.Inset{Right: unit.Dp(10)}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
 								return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-									return material.Label(th, unit.Sp(16), "Left").Layout(gtx)
+
+									return layout.Flex{Axis: layout.Vertical}.Layout(gtx,
+
+										layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+											return material.Button(th, &btn, "Click").Layout(gtx)
+										}),
+									)
+
+									//return material.Label(th, unit.Sp(16), "Left").Layout(gtx)
+									//})
 								})
 							})
 						}),
