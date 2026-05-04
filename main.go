@@ -59,35 +59,91 @@ func run(w *app.Window) error {
 			}
 
 			layout.Flex{
-				Axis: layout.Vertical, // แนวตั้ง
+				Axis: layout.Vertical,
 			}.Layout(gtx,
+
+				// 🔝 Top
 				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
 					return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-						return material.H6(th, "Title").Layout(gtx)
+						return material.Label(th, unit.Sp(18), "Top").Layout(gtx)
+
 					})
 				}),
 
-				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-					return material.Button(th, &btn, "Click").Layout(gtx)
+				// 🧱 Middle (Left + Center + Right)
+				layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+					return layout.Flex{
+						Axis: layout.Horizontal,
+					}.Layout(gtx,
+
+						// ⬅ Left
+						layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+							return layout.Inset{Right: unit.Dp(10)}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+								return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+									return material.Label(th, unit.Sp(16), "Left").Layout(gtx)
+								})
+							})
+						}),
+
+						// 🎯 Center (กินพื้นที่ที่เหลือ)
+						layout.Flexed(1, func(gtx layout.Context) layout.Dimensions {
+							return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+								return material.Label(th, unit.Sp(16), "Center").Layout(gtx)
+							})
+						}),
+
+						// ➡ Right
+						layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+							return layout.Inset{Left: unit.Dp(10)}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+								return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+									return material.Label(th, unit.Sp(16), "Right").Layout(gtx)
+								})
+							})
+						}),
+					)
 				}),
+
+				// 🔻 Bottom
 				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-					return material.Button(th, &btn, "Click me").Layout(gtx)
-					//Button สร้างอยู่ตรงนี้ แล้วใช้ theme, ฟังชั้น, ชื่อที่แสดง
-				}),
-				layout.Rigid(func(gtx layout.Context) layout.Dimensions {
-					return material.Label(th, unit.Sp(16), "Click me").Layout(gtx)
+					return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+						return material.Label(th, unit.Sp(18), "Bottom").Layout(gtx)
+					})
 				}),
 			)
 
-			layout.Inset{
-				Top:    unit.Dp(300),
-				Bottom: unit.Dp(10),
-				Left:   unit.Dp(20),
-				Right:  unit.Dp(20),
-			}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
-				return material.Button(th, &btn, "Click").Layout(gtx)
-			})
+			/*
+				layout.Flex{
+					Axis: layout.Vertical, // แนวตั้ง
+				}.Layout(gtx,
+					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						return layout.Center.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+							return material.H6(th, "Title").Layout(gtx)
+						})
+					}),
 
+					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						return material.Button(th, &btn, "Click").Layout(gtx)
+					}),
+					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						return material.Button(th, &btn, "Click me").Layout(gtx)
+						//Button สร้างอยู่ตรงนี้ แล้วใช้ theme, ฟังชั้น, ชื่อที่แสดง
+					}),
+					layout.Rigid(func(gtx layout.Context) layout.Dimensions {
+						return material.Label(th, unit.Sp(16), "Click me").Layout(gtx)
+					}),
+				)
+
+				layout.Inset{
+					Top:    unit.Dp(300),
+					Bottom: unit.Dp(10),
+					Left:   unit.Dp(20),
+					Right:  unit.Dp(20),
+				}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+					return material.Button(th, &btn, "Click").Layout(gtx)
+				})
+
+
+			*/
 			e.Frame(gtx.Ops) //สั่งวาดจริง
 
 		}
