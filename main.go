@@ -79,6 +79,15 @@ func run(w *app.Window) error {
 				}),
 			)
 
+			layout.Inset{
+				Top:    unit.Dp(300),
+				Bottom: unit.Dp(10),
+				Left:   unit.Dp(20),
+				Right:  unit.Dp(20),
+			}.Layout(gtx, func(gtx layout.Context) layout.Dimensions {
+				return material.Button(th, &btn, "Click").Layout(gtx)
+			})
+
 			e.Frame(gtx.Ops) //สั่งวาดจริง
 
 		}
